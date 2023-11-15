@@ -1,0 +1,11 @@
+.flickity-viewport {
+  width: 100%;
+  overflow: visible !important;
+}
+.flickity-button {
+  display: none;
+}
+
+.image.fslightbox-source {
+  transform: none !important;
+}
