@@ -169,8 +169,6 @@ lightbox.props.onOpen = function () {
   }
 };
 
-// console.log(lightbox.props);
-
 // @ts-expect-error unable to ignore the unused params
 flkty.on('staticClick', function (event, pointer, cellElement, cellIndex: number | undefined) {
   if (cellIndex === undefined) return;
