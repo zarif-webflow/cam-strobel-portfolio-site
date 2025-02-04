@@ -127,11 +127,24 @@ flkty.on('scroll', function (progress: number) {
   setProgressLines(scrollActiveIndex);
 });
 
-const imgClassName = '.p-slider .image';
+const lightboxContentSources: (HTMLImageElement | string)[] = [];
 
-const imgSources = Array.from(document.querySelectorAll(imgClassName)).map((el) =>
-  el.cloneNode(true)
-);
+for (let i = 0; i < mainSlides.length; i++) {
+  const slideEl = mainSlides[i]!;
+
+  const videoUrl = slideEl.querySelector<HTMLElement>('[data-video-url]')?.dataset.videoUrl;
+
+  if (videoUrl) {
+    lightboxContentSources.push(videoUrl);
+    continue;
+  }
+
+  const imageEl = slideEl.querySelector('.image')?.cloneNode(true) as HTMLImageElement | undefined;
+
+  if (!imageEl) continue;
+
+  lightboxContentSources.push(imageEl);
+}
 
 // @ts-expect-error global iife import
 const lightbox = new FsLightbox();
@@ -139,7 +152,7 @@ const lightboxNextClass = 'lightbox-next-btn';
 const lightboxPrevClass = 'lightbox-prev-btn';
 
 // lightbox.props.slideButtons.next.width = '60px';
-lightbox.props.sources = imgSources;
+lightbox.props.sources = lightboxContentSources;
 lightbox.props.onOpen = function () {
   const nextArrButton = document
     .querySelector('.fslightbox-slide-btn-container-next')
