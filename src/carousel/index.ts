@@ -127,7 +127,21 @@ flkty.on('scroll', function (progress: number) {
   setProgressLines(scrollActiveIndex);
 });
 
-const lightboxContentSources: (HTMLImageElement | string)[] = [];
+const lightboxContentSources: (HTMLImageElement | string | HTMLVideoElement)[] = [];
+
+const videoObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      const videoEL = entry.target as HTMLVideoElement;
+      if (entry.isIntersecting) {
+        videoEL.play();
+      } else {
+        videoEL.pause();
+      }
+    });
+  },
+  { threshold: 1 }
+);
 
 for (let i = 0; i < mainSlides.length; i++) {
   const slideEl = mainSlides[i]!;
@@ -135,7 +149,11 @@ for (let i = 0; i < mainSlides.length; i++) {
   const videoUrl = slideEl.querySelector<HTMLElement>('[data-video-url]')?.dataset.videoUrl;
 
   if (videoUrl) {
-    lightboxContentSources.push(videoUrl);
+    const videoEl = document.createElement('video');
+    videoEl.src = videoUrl;
+    videoEl.controls = true;
+    videoObserver.observe(videoEl);
+    lightboxContentSources.push(videoEl);
     continue;
   }
 
@@ -153,6 +171,7 @@ const lightboxPrevClass = 'lightbox-prev-btn';
 
 // lightbox.props.slideButtons.next.width = '60px';
 lightbox.props.sources = lightboxContentSources;
+lightbox.props.onInit = function () {};
 lightbox.props.onOpen = function () {
   const nextArrButton = document
     .querySelector('.fslightbox-slide-btn-container-next')
