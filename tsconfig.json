@@ -1,6 +1,7 @@
 {
   "extends": "@finsweet/tsconfig",
   "compilerOptions": {
+    "lib": ["ES2020", "DOM"],
     "rootDir": ".",
     "baseUrl": "./",
     "paths": {

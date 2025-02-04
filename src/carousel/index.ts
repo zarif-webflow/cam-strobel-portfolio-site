@@ -10,11 +10,9 @@ import { scaleValue } from 'src/utils';
 const mainCarouselClass = '.p-slider-container';
 const mainSlidesClass = '.p-slider';
 
-const progressLinesContainer = document.querySelector(
-  '.p-slider-progress-container'
-) as HtmlElWithNull;
+const progressLinesContainer = document.querySelector<HTMLElement>('.p-slider-progress-container');
 
-const mainSlides = [...document.querySelectorAll(mainSlidesClass)] as HtmlElWithNull[];
+const mainSlides = Array.from(document.querySelectorAll<HTMLElement>(mainSlidesClass));
 
 const createProgressLines = () => {
   if (!progressLinesContainer) return;
@@ -52,7 +50,7 @@ const scaleProgressLineHeight = (progressLineEl: HtmlElWithNull, scaleInPercenta
   progressLineEl.style.transform = `scaleY(${scaleInPercentage}%)`;
 };
 
-const progressLines = [...document.querySelectorAll('.p-slider-progress')] as HtmlElWithNull[];
+const progressLines = Array.from(document.querySelectorAll<HTMLElement>('.p-slider-progress'));
 
 const progressInitialScaleY = progressLines[0]
   ? Number.parseFloat(
@@ -131,9 +129,9 @@ flkty.on('scroll', function (progress: number) {
 
 const imgClassName = '.p-slider .image';
 
-// const
-
-const imgSources = [...document.querySelectorAll(imgClassName)].map((el) => el.cloneNode(true));
+const imgSources = Array.from(document.querySelectorAll(imgClassName)).map((el) =>
+  el.cloneNode(true)
+);
 
 // @ts-expect-error global iife import
 const lightbox = new FsLightbox();
@@ -153,7 +151,7 @@ lightbox.props.onOpen = function () {
   [
     nextArrButton,
     prevArrButton,
-    ...document.querySelectorAll('.fslightbox-toolbar-button'),
+    ...Array.from(document.querySelectorAll('.fslightbox-toolbar-button')),
   ].forEach((el) => {
     el?.addEventListener('mouseenter', () => {
       document.querySelector('.cursor_dot')?.classList.add('on-hover');
